@@ -18,6 +18,21 @@ class Bank{
         this.branches = new ArrayList<Branch>();
     }
 
+    public boolean addBranch(String newBranchName){
+        Branch existingBranch = findBranch(newBranchName);
+
+        // Branch doesn't exist so adding new Branch
+        if(existingBranch != null){
+            addBranch(newBranchName);
+            return true;
+        }
+
+        // Branch already exists
+        else{
+            return false;
+        }
+    }
+
     private Branch findBranch(String branchName){
         // Found branch
         for (Branch branch : branches){
