@@ -42,14 +42,28 @@ class Bank{
             return false;
         }
         
-        boolean didAddNewCustomer = existingBranch.addCustomerTransaction(newCustomerName, initialTransactionAmount);
+        boolean didAddNewCustomer = existingBranch.newCustomer(newCustomerName, initialTransactionAmount);
         
         // Boolean of whether new CR was added or not
         // False if customer already exists
         return didAddNewCustomer;
         
     }
-    
+
+    public boolean addCustomerTransaction(String branchName, String customerName, double transactionAmount){
+
+        Branch existingBranch = findBranch(branchName);
+
+        // Can't find branch, exit out
+        if(existingBranch == null){
+            return false;
+        }
+
+        boolean didAddNewTransaction = existingBranch.addCustomerTransaction(customerName, transactionAmount);
+
+        return didAddNewTransaction;
+    }
+
     private Branch findBranch(String branchName){
         // Found branch
         for (Branch branch : branches){
@@ -60,6 +74,29 @@ class Bank{
         // Couldn't find branch
         return null;
     }
+
+    public boolean listCustomers(String branchName, boolean printTransactions) {
+        Branch branch = findBranch(branchName);
+        if (branch == null) {
+            return false;
+        }
+
+        System.out.println("Customer details for branch " + branchName);
+        ArrayList<Customer> branchCustomers = branch.getCustomers();
+        for (int i = 0; i < branchCustomers.size(); i++) {
+            Customer branchCustomer = branchCustomers.get(i);
+            System.out.println("Customer: " + branchCustomer.getName() + "[" + (i + 1) + "]");
+            if (printTransactions) {
+                System.out.println("Transactions");
+                ArrayList<Double> transactions = branchCustomer.getTransactions();
+                for (int j = 0; j < transactions.size(); j++) {
+                    System.out.println("[" + (j + 1) + "] Amount " + transactions.get(j));
+                }
+            }
+        }
+        return true;
+    }
+
 }
 
 class Branch {
