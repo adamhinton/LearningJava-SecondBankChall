@@ -33,6 +33,23 @@ class Bank{
         }
     }
 
+    public boolean addCustomer (String branchName, String newCustomerName, Double initialTransactionAmount){
+        
+        Branch existingBranch = findBranch(branchName);
+        
+        // Can't find branch, exit out
+        if(existingBranch == null){
+            return false;
+        }
+        
+        boolean didAddNewCustomer = existingBranch.addCustomerTransaction(newCustomerName, initialTransactionAmount);
+        
+        // Boolean of whether new CR was added or not
+        // False if customer already exists
+        return didAddNewCustomer;
+        
+    }
+    
     private Branch findBranch(String branchName){
         // Found branch
         for (Branch branch : branches){
